@@ -6,21 +6,20 @@ const Gameboard = function () {
 
   const placeShip = (startCoord, endCoord) => {
     if (ships.length > 0) {
-      const testShip = findShipByCoordinate(ships, startCoord);
-      if (testShip) return;
+      if (getShipByCoordinate(ships, startCoord, endCoord)) return;
     }
 
-    const ship = Ship(startCoord, endCoord);
-    ships.push(ship);
+    const ship = Ship(getLength(startCoord, endCoord));
+    ships.push({ ship: ship, start: startCoord, end: endCoord });
   };
 
   const receiveAttack = (coord) => {
-    const hitShip = findShipByCoordinate(ships, coord);
+    const hitShip = getShipByCoordinate(ships, coord);
     if (!hitShip) {
       missedHits.push(coord);
       return;
     }
-    hitShip.hit(coord);
+    hitShip.ship.hit(getHitPosition(hitShip.start, hitShip.end, coord));
   };
 
   const getShipCount = () => {
@@ -31,22 +30,55 @@ const Gameboard = function () {
     return missedHits.length;
   };
 
+  const areShipsSunk = () => {
+    const sunkShips = ships.filter((ship) => {
+      return ship.ship.isSunk();
+    });
+    return sunkShips.length === ships.length ? true : false;
+  };
+
   return {
     placeShip,
     receiveAttack,
     getShipCount,
     getMissedHitCount,
+    areShipsSunk,
   };
 };
 
-function findShipByCoordinate(shipArray, coord) {
-  const [ship] = shipArray.filter((ship) => {
-    const shipCoords = ship.getCoordinates();
-    return shipCoords.find(
-      (shipCoord) => shipCoord.x == coord.x && shipCoord.y == coord.y
+function getShipByCoordinate(shipArray, coord) {
+  const [foundShip] = shipArray.filter((ship) => {
+    return (
+      ship.start.x <= coord.x &&
+      ship.start.y <= coord.y &&
+      ship.end.x >= coord.x &&
+      ship.end.y >= coord.y
     );
   });
-  return ship;
+  if (!foundShip) return false;
+  return foundShip;
+}
+
+function getLength(start, end) {
+  if (start.x !== end.x) {
+    return Math.abs(start.x - end.x) + 1;
+  } else {
+    return Math.abs(start.y - end.y) + 1;
+  }
+}
+
+function getHitPosition(start, end, hitCoord) {
+  if (start.x !== end.x) {
+    for (let i = 0; i <= Math.abs(start.x - end.x); i++) {
+      if (start.x + i === hitCoord.x && start.y === hitCoord.y) {
+        return i;
+      }
+    }
+  } else {
+    for (let i = 0; i <= Math.abs(start.y - end.y); i++) {
+      if (start.x === hitCoord.x && start.y + i === hitCoord.y) return i;
+    }
+  }
 }
 
 export default Gameboard;

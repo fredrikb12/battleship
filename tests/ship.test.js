@@ -15,35 +15,27 @@ test("returns object with isSunk method", () => {
 });
 */
 
-test("returns empty hit array with missed hit", () => {
-  const ship1 = Ship({ x: 1, y: 2 }, { x: 2, y: 2 });
-  ship1.hit({ x: 1, y: 1 });
-  expect(ship1.getHits()).toStrictEqual([]);
+test("throws error when created with incorrect type", () => {
+  expect(() => {
+    Ship("1");
+  }).toThrow("Incorrect type");
 });
 
-test("hits ship correctly", () => {
-  const ship1 = Ship({ x: 2, y: 2 }, { x: 5, y: 2 });
-  ship1.hit({ x: 2, y: 2 });
-  expect(ship1.getHits()).toStrictEqual([{ x: 2, y: 2 }]);
+test("throws error when hit is called with wrong type", () => {
+  expect(() => {
+    const ship1 = Ship(1);
+    ship1.hit("1");
+  }).toThrow("Incorrect type for hit");
 });
 
 test("sinks ship correctly", () => {
-  const ship1 = Ship({ x: 1, y: 1 }, { x: 1, y: 1 });
-  ship1.hit({ x: 1, y: 1 });
-  ship1.hit({ x: 1, y: 2 });
+  const ship1 = Ship(1);
+  ship1.hit(1);
   expect(ship1.isSunk()).toBe(true);
 });
 
 test("doesn't always sink ship", () => {
-  const ship1 = Ship({ x: 1, y: 1 }, { x: 1, y: 2 });
-  ship1.hit({ x: 1, y: 1 });
+  const ship1 = Ship(2);
+  ship1.hit(1);
   expect(ship1.isSunk()).toBe(false);
-});
-
-test("returns correct coordinates", () => {
-  const ship1 = Ship({ x: 1, y: 3 }, { x: 2, y: 3 });
-  expect(ship1.getCoordinates()).toStrictEqual([
-    { x: 1, y: 3 },
-    { x: 2, y: 3 },
-  ]);
 });

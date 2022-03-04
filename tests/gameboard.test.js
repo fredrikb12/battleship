@@ -34,3 +34,11 @@ test("places multiple ships", () => {
   gameboard.placeShip({ x: 3, y: 2 }, { x: 4, y: 2 });
   expect(gameboard.getShipCount()).toBe(3);
 });
+
+test("sinks ships", () => {
+  const gameboard = Gameboard();
+  gameboard.placeShip({ x: 1, y: 7 }, { x: 2, y: 7 });
+  gameboard.receiveAttack({ x: 1, y: 7 });
+  gameboard.receiveAttack({ x: 2, y: 7 });
+  expect(gameboard.areShipsSunk()).toBe(true);
+});
