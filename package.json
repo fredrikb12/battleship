@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest",
     "build": "webpack",
-    "watch": "webpack --watch"
+    "watch": "webpack --watch",
+    "watchAll": "jest --watchAll"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
   },
   "homepage": "https://github.com/fredrikb12/battleship#readme",
   "devDependencies": {
+    "@babel/preset-env": "^7.16.11",
     "css-loader": "^6.6.0",
     "html-webpack-plugin": "^5.5.0",
     "jest": "^27.5.1",

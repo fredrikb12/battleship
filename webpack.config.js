@@ -6,6 +6,7 @@ module.exports = {
   entry: {
     index: "./src/index.js",
     ship: "./src/ship.js",
+    gameboard: "./src/gameboard.js",
   },
   devtool: "inline-source-map",
   plugins: [
@@ -26,7 +27,7 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
+        type: "asset/resource",
       },
     ],
   },
