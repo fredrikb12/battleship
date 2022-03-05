@@ -6,7 +6,7 @@ const Gameboard = function () {
 
   const placeShip = (startCoord, endCoord) => {
     if (startCoord.x !== endCoord.x && startCoord.y !== endCoord.y)
-      throw Error("Invalid coordinates");
+      throw Error("Invalid coordinates, ship is diagonally placed");
     const checkedCoords = [startCoord, endCoord].filter((coord) => {
       return coord.x < 1 || coord.y < 1 || coord.x > 10 || coord.y > 10;
     });

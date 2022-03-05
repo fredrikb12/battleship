@@ -43,9 +43,23 @@ test("sinks ships", () => {
   expect(gameboard.areShipsSunk()).toBe(true);
 });
 
-test("throws error if invalid coordinate", () => {
+test("throws error if coordinate too high", () => {
   expect(() => {
     const gameboard = Gameboard();
     gameboard.placeShip({ x: 1, y: 11 }, { x: 2, y: 11 });
   }).toThrow("Invalid coordinate range");
+});
+
+test("throws error if coordinate too low", () => {
+  expect(() => {
+    const gameboard = Gameboard();
+    gameboard.placeShip({ x: 1, y: -10 }, { x: 2, y: -10 });
+  }).toThrow("Invalid coordinate range");
+});
+
+test("throws error if ship is diagonal", () => {
+  expect(() => {
+    const gameboard = Gameboard();
+    gameboard.placeShip({ x: 1, y: 1 }, { x: 2, y: 2 });
+  }).toThrow("Invalid coordinates");
 });
