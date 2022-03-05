@@ -5,6 +5,12 @@ const Gameboard = function () {
   const missedHits = [];
 
   const placeShip = (startCoord, endCoord) => {
+    if (startCoord.x !== endCoord.x && startCoord.y !== endCoord.y)
+      throw Error("Invalid coordinates");
+    const checkedCoords = [startCoord, endCoord].filter((coord) => {
+      return coord.x < 1 || coord.y < 1 || coord.x > 10 || coord.y > 10;
+    });
+    if (checkedCoords.length > 0) throw Error("Invalid coordinate range");
     if (ships.length > 0) {
       if (getShipByCoordinate(ships, startCoord, endCoord)) return;
     }
@@ -55,7 +61,7 @@ function getShipByCoordinate(shipArray, coord) {
       ship.end.y >= coord.y
     );
   });
-  if (!foundShip) return false;
+  if (!foundShip) return null;
   return foundShip;
 }
 

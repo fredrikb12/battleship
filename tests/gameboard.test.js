@@ -42,3 +42,10 @@ test("sinks ships", () => {
   gameboard.receiveAttack({ x: 2, y: 7 });
   expect(gameboard.areShipsSunk()).toBe(true);
 });
+
+test("throws error if invalid coordinate", () => {
+  expect(() => {
+    const gameboard = Gameboard();
+    gameboard.placeShip({ x: 1, y: 11 }, { x: 2, y: 11 });
+  }).toThrow("Invalid coordinate range");
+});
