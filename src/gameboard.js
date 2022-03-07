@@ -34,8 +34,8 @@ const Gameboard = function () {
     return ships.length;
   };
 
-  const getMissedHitCount = () => {
-    return missedHits.length;
+  const getMissedHits = () => {
+    return [...missedHits];
   };
 
   const areShipsSunk = () => {
@@ -49,7 +49,7 @@ const Gameboard = function () {
     placeShip,
     receiveAttack,
     getShipCount,
-    getMissedHitCount,
+    getMissedHits,
     areShipsSunk,
   };
 };

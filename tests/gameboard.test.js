@@ -15,7 +15,7 @@ test("receives attack", () => {
   const gameboard = Gameboard();
   gameboard.placeShip({ x: 1, y: 3 }, { x: 1, y: 4 });
   gameboard.receiveAttack({ x: 1, y: 3 });
-  expect(gameboard.getMissedHitCount()).toBe(0);
+  expect(gameboard.getMissedHits().length).toBe(0);
 });
 
 test("attacks miss correctly", () => {
@@ -24,7 +24,7 @@ test("attacks miss correctly", () => {
   gameboard.placeShip({ x: 1, y: 2 }, { x: 2, y: 2 });
   gameboard.placeShip({ x: 3, y: 2 }, { x: 4, y: 2 });
   gameboard.receiveAttack({ x: 5, y: 7 });
-  expect(gameboard.getMissedHitCount()).toBe(1);
+  expect(gameboard.getMissedHits().length).toBe(1);
 });
 
 test("places multiple ships", () => {
