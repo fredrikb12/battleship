@@ -5,8 +5,11 @@ module.exports = {
   mode: "development",
   entry: {
     index: "./src/index.js",
+    game: "./src/game.js",
     ship: "./src/ship.js",
     gameboard: "./src/gameboard.js",
+    player: "./src/player.js",
+    ui: "./src/ui.js",
   },
   devtool: "inline-source-map",
   plugins: [

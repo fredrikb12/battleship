@@ -63,3 +63,10 @@ test("throws error if ship is diagonal", () => {
     gameboard.placeShip({ x: 1, y: 1 }, { x: 2, y: 2 });
   }).toThrow("Invalid coordinates");
 });
+
+test("correctly tells if coordinate has ship", () => {
+  const gameboard = Gameboard();
+  gameboard.placeShip({ x: 1, y: 1 }, { x: 2, y: 1 });
+  expect(gameboard.coordinateHasShip({ x: 2, y: 1 })).toBe(true);
+  expect(gameboard.coordinateHasShip({ x: 3, y: 1 })).toBe(false);
+});

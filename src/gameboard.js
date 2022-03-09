@@ -17,17 +17,23 @@ const Gameboard = function () {
       if (getShipByCoordinate(ships, startCoord, endCoord)) return;
     }
 
-    const ship = Ship(getLength(startCoord, endCoord));
-    ships.push({ ship: ship, start: startCoord, end: endCoord });
+    if (startCoord.x > endCoord.x || startCoord.y > endCoord.y) {
+      const ship = Ship(getLength(endCoord, startCoord));
+      ships.push({ ship: ship, start: endCoord, end: startCoord });
+    } else {
+      const ship = Ship(getLength(startCoord, endCoord));
+      ships.push({ ship: ship, start: startCoord, end: endCoord });
+    }
   };
 
   const receiveAttack = (coord) => {
     const hitShip = getShipByCoordinate(ships, coord);
     if (!hitShip) {
       missedHits.push(coord);
-      return;
+      return false;
     }
     hitShip.ship.hit(getHitPosition(hitShip.start, hitShip.end, coord));
+    return true;
   };
 
   const getShipCount = () => {
@@ -45,12 +51,19 @@ const Gameboard = function () {
     return sunkShips.length === ships.length ? true : false;
   };
 
+  const coordinateHasShip = (coord) => {
+    const ship = getShipByCoordinate(ships, coord);
+    if (ship === null) return false;
+    return true;
+  };
+
   return {
     placeShip,
     receiveAttack,
     getShipCount,
     getMissedHits,
     areShipsSunk,
+    coordinateHasShip,
   };
 };
 
@@ -68,11 +81,10 @@ function getShipByCoordinate(shipArray, coord) {
 }
 
 function getLength(start, end) {
-  if (start.x !== end.x) {
-    return Math.abs(start.x - end.x) + 1;
-  } else {
-    return Math.abs(start.y - end.y) + 1;
-  }
+  return Math.sqrt(
+    (start.x - end.x) * (start.x - end.x) +
+      (start.y - end.y) * (start.y - end.y)
+  );
 }
 
 function getHitPosition(start, end, hitCoord) {

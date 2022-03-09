@@ -14,7 +14,7 @@ const Player = function (name) {
     if (!isNext) throw Error(`${getName()} is not next!`);
     if (target === gameboard) throw Error("Can't attack own gameboard!");
 
-    if (name === "computer") {
+    if (name === "computer" || name === "Computer") {
       const attack = getComputerAttack();
       target.receiveAttack(attack);
       previousAttacks.push(attack);
