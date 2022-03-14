@@ -63,3 +63,14 @@ test("player needs to be set as next attacker", () => {
     player.makeAttack(board, { x: 1, y: 2 });
   }).toThrow(`${player.getName()} is not next!`);
 });
+
+test("records clicks correctly", () => {
+  const player = Player("player");
+  const board = Gameboard();
+
+  player.setIsNext(true);
+  player.makeAttack(board, { x: 1, y: 1 });
+
+  expect(player.hasAlreadyClicked({ x: 1, y: 1 })).toBe(true);
+  expect(player.hasAlreadyClicked({ x: 3, y: 5 })).toBe(false);
+});

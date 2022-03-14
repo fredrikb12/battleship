@@ -17,17 +17,78 @@ const game = (() => {
   comp.gameboard.placeShip({ x: 10, y: 8 }, { x: 10, y: 6 });
   comp.gameboard.placeShip({ x: 4, y: 3 }, { x: 4, y: 6 });
 
-  document.body.appendChild(UI.createBoard(player, true));
-  document.body.appendChild(UI.createBoard(comp, false));
+  UI.createWrapper();
+  UI.createHeader();
 
-  const promise = UI.awaitClick();
-  promise.then((coord) => {
-    console.log(coord);
-    comp.gameboard.receiveAttack(coord);
-  });
-  const promise2 = UI.awaitClick();
-  promise2.then((coord) => {
-    console.log(coord);
-    comp.gameboard.receiveAttack(coord);
+  document
+    .getElementById("main-wrapper")
+    .appendChild(UI.createBoard(player, comp, true, false));
+  document
+    .getElementById("main-wrapper")
+    .appendChild(UI.createBoard(comp, player, false, false));
+
+  document.getElementById("computer-board").addEventListener("click", (e) => {
+    if (!e.target.classList.contains("square")) return;
+
+    const clickedCoord = {
+      x: parseInt(e.target.dataset.x),
+      y: parseInt(e.target.dataset.y),
+    };
+    if (player.hasAlreadyClicked(clickedCoord)) return;
+    player.setIsNext(true);
+
+    const playerHitStatus = player.makeAttack(comp.gameboard, {
+      x: parseInt(e.target.dataset.x),
+      y: parseInt(e.target.dataset.y),
+    });
+    UI.renderHitStatus(playerHitStatus, e.target);
+    player.setIsNext(false);
+
+    let [winner, loser] = isGameOver(player, comp);
+    if (winner && loser) {
+      gameOver(winner, loser);
+    } else {
+      comp.setIsNext(true);
+      const compHitStatus = comp.makeAttack(player.gameboard);
+      const compHitTarget = UI.getElementByCoord(compHitStatus.coord);
+      UI.renderHitStatus(compHitStatus, compHitTarget);
+      comp.setIsNext(false);
+      [winner, loser] = isGameOver(player, comp);
+      if (winner && loser) gameOver(winner, loser);
+    }
   });
 })();
+
+function isGameOver(player1, player2) {
+  if (player1.gameboard.areShipsSunk()) return [player2, player1];
+  if (player2.gameboard.areShipsSunk()) return [player1, player2];
+  return [false, false];
+}
+
+function gameOver(winner, loser) {
+  const mainWrapper = document.getElementById("main-wrapper");
+  const boards = document.querySelectorAll(".wrapper");
+  boards.forEach((board) => board.remove());
+  const winnerBoard = UI.createBoard(
+    winner,
+    loser,
+    winner.getName() !== "Computer",
+    true
+  );
+
+  const loserBoard = UI.createBoard(
+    loser,
+    winner,
+    loser.getName() !== "Computer",
+    true
+  );
+
+  if (winner.getName() === "Computer") {
+    mainWrapper.appendChild(loserBoard);
+    mainWrapper.appendChild(winnerBoard);
+  } else {
+    mainWrapper.appendChild(winnerBoard);
+    mainWrapper.appendChild(loserBoard);
+  }
+  UI.addWinHeader(winner);
+}

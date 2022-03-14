@@ -43,6 +43,14 @@ test("sinks ships", () => {
   expect(gameboard.areShipsSunk()).toBe(true);
 });
 
+test("doesn't always sink ships", () => {
+  const gameboard = Gameboard();
+  gameboard.placeShip({ x: 1, y: 7 }, { x: 3, y: 7 });
+  gameboard.receiveAttack({ x: 1, y: 7 });
+  gameboard.receiveAttack({ x: 2, y: 7 });
+  expect(gameboard.areShipsSunk()).toBe(false);
+});
+
 test("throws error if coordinate too high", () => {
   expect(() => {
     const gameboard = Gameboard();

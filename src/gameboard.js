@@ -30,10 +30,10 @@ const Gameboard = function () {
     const hitShip = getShipByCoordinate(ships, coord);
     if (!hitShip) {
       missedHits.push(coord);
-      return false;
+      return { hit: false, coord: coord };
     }
     hitShip.ship.hit(getHitPosition(hitShip.start, hitShip.end, coord));
-    return true;
+    return { hit: true, coord: coord };
   };
 
   const getShipCount = () => {
@@ -48,6 +48,7 @@ const Gameboard = function () {
     const sunkShips = ships.filter((ship) => {
       return ship.ship.isSunk();
     });
+    console.log(sunkShips);
     return sunkShips.length === ships.length ? true : false;
   };
 
@@ -68,6 +69,7 @@ const Gameboard = function () {
 };
 
 function getShipByCoordinate(shipArray, coord) {
+  if (!coord) return;
   const [foundShip] = shipArray.filter((ship) => {
     return (
       ship.start.x <= coord.x &&
@@ -81,9 +83,11 @@ function getShipByCoordinate(shipArray, coord) {
 }
 
 function getLength(start, end) {
-  return Math.sqrt(
-    (start.x - end.x) * (start.x - end.x) +
-      (start.y - end.y) * (start.y - end.y)
+  return (
+    Math.sqrt(
+      (start.x - end.x) * (start.x - end.x) +
+        (start.y - end.y) * (start.y - end.y)
+    ) + 1
   );
 }
 

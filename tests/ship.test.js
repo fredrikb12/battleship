@@ -17,20 +17,21 @@ test("returns object with isSunk method", () => {
 
 test("throws error when created with incorrect type", () => {
   expect(() => {
-    Ship("1");
+    Ship("2");
   }).toThrow("Incorrect type");
 });
 
 test("throws error when hit is called with wrong type", () => {
   expect(() => {
-    const ship1 = Ship(1);
+    const ship1 = Ship(2);
     ship1.hit("1");
   }).toThrow("Incorrect type for hit");
 });
 
 test("sinks ship correctly", () => {
-  const ship1 = Ship(1);
+  const ship1 = Ship(2);
   ship1.hit(1);
+  ship1.hit(2);
   expect(ship1.isSunk()).toBe(true);
 });
 

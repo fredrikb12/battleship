@@ -1,5 +1,6 @@
 const Ship = function (size) {
   if (typeof size !== "number") throw Error("Incorrect type for hit creation");
+  if (size < 2) throw Error("Size too low");
   const length = parseInt(size);
   const hits = [];
 

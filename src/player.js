@@ -3,6 +3,7 @@ import Gameboard from "./gameboard";
 const Player = function (name) {
   if (typeof name !== "string") name = "Player 1";
   const previousAttacks = [];
+  const possibleAttacks = [];
   const gameboard = Gameboard();
   let isNext = false;
 
@@ -13,21 +14,20 @@ const Player = function (name) {
   const makeAttack = (target, coord) => {
     if (!isNext) throw Error(`${getName()} is not next!`);
     if (target === gameboard) throw Error("Can't attack own gameboard!");
+    let wasHit;
 
     if (name === "computer" || name === "Computer") {
       const attack = getComputerAttack();
-      target.receiveAttack(attack);
+      wasHit = target.receiveAttack(attack);
       previousAttacks.push(attack);
     } else {
-      target.receiveAttack(coord);
+      wasHit = target.receiveAttack(coord);
       previousAttacks.push(coord);
     }
-    isNext = false;
+    return wasHit;
   };
 
   const getComputerAttack = () => {
-    if (name !== "computer") return;
-
     const attemptedAttack = {
       x: Math.floor(Math.random() * 10) + 1,
       y: Math.floor(Math.random() * 10) + 1,
@@ -43,11 +43,29 @@ const Player = function (name) {
     return attemptedAttack;
   };
 
+  const fillPossibleAttack = () => {
+    for (let i = 1; i < 11; i++) {
+      for (let j = 1; j < 11; j++) {
+        possibleAttacks.push({ x: i, y: j });
+      }
+    }
+  };
+
+  const hasAlreadyClicked = (coord) => {
+    return previousAttacks.find(
+      (el) => el.x === coord.x && el.y === coord.y
+    ) !== undefined
+      ? true
+      : false;
+  };
+
   return {
     gameboard,
     getName,
     makeAttack,
     setIsNext,
+    fillPossibleAttack,
+    hasAlreadyClicked,
   };
 };
 
