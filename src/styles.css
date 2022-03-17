@@ -29,6 +29,22 @@ body {
   color: #000000;
 }
 
+#orientation-button {
+  height: 2em;
+  width: 200px;
+  background-color: #11276d;
+  border: 1px solid rgb(0, 14, 78);
+  border-radius: 8px;
+  color: white;
+  font-size: 1.2rem;
+  box-shadow: 2px 2px 5px 0 rgb(41, 45, 58);
+}
+
+#orientation-button:hover {
+  background-color: #002cbd;
+  cursor: pointer;
+}
+
 .wrapper > h1 {
   color: #ffdbb5;
 }
@@ -36,6 +52,7 @@ body {
 .wrapper {
   text-align: center;
   display: flex;
+  align-items: center;
   flex-direction: column;
   gap: 15px;
   border: 1px solid black;
