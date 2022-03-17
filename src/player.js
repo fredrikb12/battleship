@@ -32,18 +32,7 @@ const Player = function (name) {
     const attack =
       possibleAttacks[Math.floor(Math.random() * possibleAttacks.length)];
     possibleAttacks.splice(possibleAttacks.indexOf(attack), 1);
-    /*const attemptedAttack = {
-      x: Math.floor(Math.random() * 10) + 1,
-      y: Math.floor(Math.random() * 10) + 1,
-    };
-
-    const matchedAttack = previousAttacks.find((coordinate) => {
-      return (
-        coordinate.x === attemptedAttack.x && coordinate.y === attemptedAttack.y
-      );
-    });
-    if (matchedAttack !== undefined) return getComputerAttack();*/
-
+   
     return attack;
   };
 

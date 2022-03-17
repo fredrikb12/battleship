@@ -19,7 +19,7 @@ const UI = (() => {
         square.dataset.y = j;
         square.classList.add("square");
         if (
-          player /*.getName() !== "Computer"*/ &&
+          player.getName() !== "Computer" &&
           !gameIsOver &&
           player.gameboard.coordinateHasShip({ x: i, y: j })
         ) {
@@ -67,10 +67,6 @@ const UI = (() => {
   };
 
   const addWinHeader = (winner) => {
-    /*const header = document.createElement("h1");
-    header.textContent = winner.getName();
-    header.classList.add("winner");
-    document.getElementById("header").after(header);*/
     const header = document.getElementById("header");
     header.textContent = `${winner.getName()} won!`;
   };
