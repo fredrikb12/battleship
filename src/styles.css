@@ -8,10 +8,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 12%;
   height: 100vh;
-  gap: 10%;
-  background-color: #2f7adb;
+  gap: 4%;
+  background-color: #165ebd;
 }
 
 #main-wrapper {
@@ -21,7 +20,13 @@ body {
 
 #header {
   font-size: 3.5rem;
-  color: rgb(255, 174, 52);
+  color: #ffae34;
+  margin-top: 12%;
+}
+
+#prompt {
+  font-size: 1.2rem;
+  color: #000000;
 }
 
 .wrapper > h1 {
@@ -75,4 +80,8 @@ body {
 .hit {
   background-color: #8bff3e;
   border: 1px solid #66ff00;
+}
+
+.selected {
+  background-color: #fff;
 }

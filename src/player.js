@@ -2,6 +2,7 @@ import Gameboard from "./gameboard";
 
 const Player = function (name) {
   if (typeof name !== "string") name = "Player 1";
+
   const previousAttacks = [];
   const possibleAttacks = [];
   const gameboard = Gameboard();
@@ -28,7 +29,10 @@ const Player = function (name) {
   };
 
   const getComputerAttack = () => {
-    const attemptedAttack = {
+    const attack =
+      possibleAttacks[Math.floor(Math.random() * possibleAttacks.length)];
+    possibleAttacks.splice(possibleAttacks.indexOf(attack), 1);
+    /*const attemptedAttack = {
       x: Math.floor(Math.random() * 10) + 1,
       y: Math.floor(Math.random() * 10) + 1,
     };
@@ -38,9 +42,18 @@ const Player = function (name) {
         coordinate.x === attemptedAttack.x && coordinate.y === attemptedAttack.y
       );
     });
-    if (matchedAttack !== undefined) return getComputerAttack();
+    if (matchedAttack !== undefined) return getComputerAttack();*/
 
-    return attemptedAttack;
+    return attack;
+  };
+
+  const getComputerPlacement = () => {
+    const placement = {
+      x: Math.floor(Math.random() * 10) + 1,
+      y: Math.floor(Math.random() * 10) + 1,
+    };
+    const orientation = Math.floor(Math.random() * 2 + 1) === 1 ? "x" : "y";
+    return { placement, orientation };
   };
 
   const fillPossibleAttack = () => {
@@ -66,6 +79,7 @@ const Player = function (name) {
     setIsNext,
     fillPossibleAttack,
     hasAlreadyClicked,
+    getComputerPlacement,
   };
 };
 

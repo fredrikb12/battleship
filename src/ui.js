@@ -1,4 +1,6 @@
 const UI = (() => {
+  let orientation = "x";
+
   const createBoard = (player, opponent, isPlayerBoard, gameIsOver) => {
     const boardWrapper = document.createElement("div");
     boardWrapper.classList.add("wrapper");
@@ -17,7 +19,7 @@ const UI = (() => {
         square.dataset.y = j;
         square.classList.add("square");
         if (
-          player/*.getName() !== "Computer"*/ &&
+          player /*.getName() !== "Computer"*/ &&
           !gameIsOver &&
           player.gameboard.coordinateHasShip({ x: i, y: j })
         ) {
@@ -45,7 +47,6 @@ const UI = (() => {
   };
 
   const renderHitStatus = (hitStatus, el) => {
-    console.log(hitStatus);
     if (hitStatus.hit) el.classList.add("hit");
     else el.classList.add("miss");
   };
@@ -71,7 +72,7 @@ const UI = (() => {
     header.classList.add("winner");
     document.getElementById("header").after(header);*/
     const header = document.getElementById("header");
-    header.textContent += `: ${winner.getName()} won!`;
+    header.textContent = `${winner.getName()} won!`;
   };
 
   const createWrapper = () => {
@@ -87,6 +88,54 @@ const UI = (() => {
     document.body.prepend(header);
   };
 
+  const getOrientation = () => {
+    return orientation;
+  };
+
+  const switchOrientation = () => {
+    orientation = orientation === "x" ? "y" : "x";
+  };
+
+  const createOrientationButton = () => {
+    const button = document.createElement("button");
+    button.textContent = `Switch orientation: ${getOrientation()}`;
+    button.setAttribute("id", "orientation-button");
+    button.addEventListener("click", (e) => {
+      switchOrientation();
+      button.textContent = `Switch orientation: ${getOrientation()}`;
+    });
+    return button;
+  };
+
+  const addSelection = (coords, isShip) => {
+    const elements = coords.map((coord) => {
+      return document.querySelector(
+        `[data-x="${coord.x.toString()}"][data-y="${coord.y.toString()}"]`
+      );
+    });
+    elements.forEach((element) => {
+      if (!isShip) element.classList.add("selected");
+      else element.classList.add("ship-square");
+    });
+  };
+
+  const removeSelections = () => {
+    document.querySelectorAll(".selected").forEach((element) => {
+      element.classList.remove("selected");
+    });
+  };
+
+  const createPrompt = (text) => {
+    const prompt = document.createElement("p");
+    prompt.setAttribute("id", "prompt");
+    prompt.textContent = "Place your ships to continue...";
+    if (text) prompt.textContent = text;
+    document.body.prepend(prompt);
+  };
+
+  const setPromptText = (text) => {
+    document.getElementById("prompt").textContent = text;
+  };
   return {
     createBoard,
     renderHitStatus,
@@ -94,6 +143,13 @@ const UI = (() => {
     addWinHeader,
     createWrapper,
     createHeader,
+    getOrientation,
+    switchOrientation,
+    createOrientationButton,
+    addSelection,
+    removeSelections,
+    createPrompt,
+    setPromptText,
   };
 })();
 

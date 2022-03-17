@@ -46,6 +46,7 @@ test("makes attack without coordinate input if computer", () => {
 test("makes different random attacks", () => {
   const player = Player("computer");
   player.setIsNext(true);
+  player.fillPossibleAttack();
   const enemyBoard = Gameboard();
   player.makeAttack(enemyBoard);
   player.setIsNext(true);
