@@ -13,7 +13,6 @@ const Gameboard = function () {
       return coord.x < 1 || coord.y < 1 || coord.x > 10 || coord.y > 10;
     });
     if (checkedCoords.length > 0) throw Error("Invalid coordinate range");
-    console.log(getShipByCoordinates(ships, startCoord, endCoord));
     if (getShipByCoordinates(ships, startCoord, endCoord)) return;
 
     if (startCoord.x > endCoord.x || startCoord.y > endCoord.y) {
@@ -114,9 +113,7 @@ const Gameboard = function () {
       return foundShip;
     }
     const coords = getAllCoordinates(start, end);
-    console.log(coords);
     const foundShips = coords.map((coord) => coordinateHasShip(coord));
-    console.log(foundShips);
 
     if (
       foundShips.filter((el) => {

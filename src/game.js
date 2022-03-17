@@ -37,7 +37,6 @@ const game = (() => {
     if (player.gameboard.getShipCount() >= 5) return;
     if (!e.target.classList.contains("square")) return;
     UI.removeSelections();
-    console.log(e.target);
     UI.addSelection(
       player.gameboard.getSuggestedPlacement(
         { x: parseInt(e.target.dataset.x), y: parseInt(e.target.dataset.y) },
